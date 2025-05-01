@@ -1,6 +1,6 @@
 import UserCard from "@/app/components/common/user-card";
- import ProjectCard from "@/app/components/common/project-card";
- import TotalVisits from "@/app/components/common/total-visits";
+import ProjectCard from "@/app/components/common/project-card";
+import TotalVisits from "@/app/components/common/total-visits";
 import { Plus } from "lucide-react";
 import Link from "next/link";
  
