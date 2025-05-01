@@ -6,7 +6,7 @@ export async function manageAuth() {
   const session = await auth();
 
   if (!session) {
-    return await signIn("google", {redirectTo: "/criar"});
+    return await signIn("google", {redirectTo: "/create"});
   } 
   
   return await signOut({redirectTo: "/"});
