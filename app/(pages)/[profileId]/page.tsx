@@ -2,10 +2,11 @@ import UserCard from "@/app/components/common/user-card";
 import ProjectCard from "@/app/components/common/project-card";
 import TotalVisits from "@/app/components/common/total-visits";
 import Link from "next/link";
-import getProfileData from "@/app/server/get-profile-data";
+import getProfileData, { GetProfileProjects } from "@/app/server/get-profile-data";
 import { notFound } from "next/navigation";
 import { auth } from "@/app/lib/auth";
 import NewProjectCard from "./new-project";
+import { getDownloadUrlFromPath } from "@/app/lib/firebase";
  
  export default async function ProfilePage({
    params,
@@ -20,46 +21,10 @@ import NewProjectCard from "./new-project";
     return notFound();
   }
 
+  const projects = await GetProfileProjects(profileId);
+
   const session = await auth();
   const isOwner = profileData.userId === session?.user?.id;
-
-   const projects = [
-    {
-      title: "Projeto 1",
-      content: "Conteudo projeto 1",
-      imageSrc: "/project1.jpg"
-    },
-    {
-      title: "Projeto 2",
-      content: "Conteudo projeto 2",
-      imageSrc: "/project2.jpg"
-    },
-    {
-      title: "Projeto 1",
-      content: "Conteudo projeto 1",
-      imageSrc: "/project1.jpg"
-    },
-    {
-      title: "Projeto 2",
-      content: "Conteudo projeto 2",
-      imageSrc: "/project2.jpg"
-    },
-    {
-      title: "Projeto 1",
-      content: "Conteudo projeto 1",
-      imageSrc: "/project1.jpg"
-    },
-    {
-      title: "Projeto 2",
-      content: "Conteudo projeto 2",
-      imageSrc: "/project2.jpg"
-    },
-    {
-      title: "Projeto 1",
-      content: "Conteudo projeto 1",
-      imageSrc: "/project1.jpg"
-    }
-   ]
  
    return (
      <div className="relative h-screen flex p-20 overflow-hidden">
@@ -75,8 +40,13 @@ import NewProjectCard from "./new-project";
          <UserCard />
        </div>
        <div className="w-full flex justify-center content-start gap-4 flex-wrap overflow-y-auto">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} title={project.title} content={project.content} imageSrc={project.imageSrc} />
+          {projects.map(async (project) => (
+            <ProjectCard 
+              key={project.id}
+              project={project}
+              isOwner={isOwner}
+              img={await getDownloadUrlFromPath(project.imagePath)}
+            />
           ))}
           {
             isOwner && <NewProjectCard profileId={profileId} />

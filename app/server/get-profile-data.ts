@@ -8,8 +8,25 @@ export type ProfileData = {
   createdAt: number;
 };
 
+export type ProjectData = { 
+  id: string;
+  userId: string;
+  projectName: string;
+  projectDescription: string;
+  projectUrl: string;
+  imagePath: string;
+  createdAt: string;
+  totalVisits?: number;
+}
+
 export default async function GetProfileData(profileId: string) { 
   const snapshot = await fireStore.collection("profiles").doc(profileId).get();
 
   return snapshot.data() as ProfileData;
+}
+
+export async function GetProfileProjects(profileId: string) {
+  const snapshot = await fireStore.collection("projects").doc(profileId).collection("projects").get();
+
+  return snapshot.docs.map((doc) => doc.data() as ProjectData);
 }
