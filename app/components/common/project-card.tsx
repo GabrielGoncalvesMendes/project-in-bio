@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { ProjectData } from "@/app/server/get-profile-data";
 import Link from "next/link";
+import { formatUrl } from "@/app/lib/utils";
 
 
 export default function ProjectCard({ project, isOwner, img }: { project: ProjectData, isOwner: boolean, img: string }) {
-  const projectUrl = project.projectUrl;
-  const formattedUrl = projectUrl.startsWith('http') ? projectUrl : `https://${projectUrl}`;
+
+  const formattedUrl = formatUrl(project?.projectUrl);
 
   function handleClick() {
     console.log("Clicou no projeto");
@@ -22,12 +23,12 @@ export default function ProjectCard({ project, isOwner, img }: { project: Projec
         <div className="flex flex-col gap-2">
           {isOwner && (
             <span className="uppercase text-xs font-bold text-accent-green">
-              {project.totalVisits || 0} Cliques
+              {project?.totalVisits || 0} Cliques
             </span>
           )}
           <div className="flex flex-col">
-            <span className="text-white font-bold text-xl">{project.projectName}</span>
-            <span className="text-content-body text-sm">{project.projectDescription}</span>
+            <span className="text-white font-bold text-xl">{project?.projectName}</span>
+            <span className="text-content-body text-sm">{project?.projectDescription}</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import UserCard from "@/app/components/common/user-card";
 import ProjectCard from "@/app/components/common/project-card";
 import TotalVisits from "@/app/components/common/total-visits";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import { notFound } from "next/navigation";
 import { auth } from "@/app/lib/auth";
 import NewProjectCard from "./new-project";
 import { getDownloadUrlFromPath } from "@/app/lib/firebase";
+import UserCard from "@/app/components/common/user-card/user-card";
  
  export default async function ProfilePage({
    params,
@@ -37,7 +37,7 @@ import { getDownloadUrlFromPath } from "@/app/lib/firebase";
          </Link>
        </div>
        <div className="w-1/2 flex justify-center h-min">
-         <UserCard />
+         <UserCard profileData={profileData} />
        </div>
        <div className="w-full flex justify-center content-start gap-4 flex-wrap overflow-y-auto">
           {projects.map(async (project) => (
@@ -45,7 +45,7 @@ import { getDownloadUrlFromPath } from "@/app/lib/firebase";
               key={project.id}
               project={project}
               isOwner={isOwner}
-              img={await getDownloadUrlFromPath(project.imagePath)}
+              img={await getDownloadUrlFromPath(project.imagePath) || ""}
             />
           ))}
           {
