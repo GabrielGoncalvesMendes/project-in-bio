@@ -5,6 +5,9 @@ import { CustomLink } from "../actions/add-custom-links";
 
 export type ProfileData = { 
   userId: string;
+  name?: string;
+  description?: string;
+  imagePath?: string;
   totalVisits: number;
   createdAt: number;
   socialMedias?: {

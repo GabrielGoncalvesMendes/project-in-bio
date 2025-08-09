@@ -51,3 +51,16 @@ export const compressImage = (file: File) => {
 export function formatUrl(url: string) {
   return url?.startsWith('http') ? url : `https://${url}`;
 }
+
+export function triggerImageInput(id: string) {
+  document.getElementById(id)?.click();
+}
+
+export  function handleImageInput(event: React.ChangeEvent<HTMLInputElement>) {
+  const file = event.target.files?.[0] ?? null;
+  if (file) {
+    const imageUrl = URL.createObjectURL(file);
+    return imageUrl;
+  }
+  return null;
+}

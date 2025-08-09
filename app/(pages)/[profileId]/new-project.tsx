@@ -5,7 +5,7 @@ import Button from "@/app/components/ui/button";
 import Modal from "@/app/components/ui/modal";
 import TextArea from "@/app/components/ui/text-area";
 import TextInput from "@/app/components/ui/text-input";
-import { compressFiles } from "@/app/lib/utils";
+import { compressFiles, handleImageInput, triggerImageInput } from "@/app/lib/utils";
 import { ArrowUpFromLine, Plus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -26,21 +26,6 @@ export default function NewProjectCard({ profileId }: { profileId: string }) {
   const handleOpenModal = () => {
     setIsOpen(true);
   };
-
-
-
-  function triggerImageInput(id: string) {
-    document.getElementById(id)?.click();
-  }
-
-  function handleImageInput(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0] ?? null;
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      return imageUrl;
-    }
-    return null;
-  }
 
   async function handleCreateProject() {
     setIsCreatingProject(true);
