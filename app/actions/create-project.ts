@@ -28,7 +28,8 @@ export async function createProject(formData: FormData) {
   const imagePath = storageRef.name;
   
   try {
-    await fireStore.collection("projects").doc(profileId).collection("projects").doc().set({
+    await fireStore.collection("profiles").doc(profileId).collection("projects").doc().set({
+      id: generatedId,
       userId: session?.user?.id,
       profileId,
       projectName,

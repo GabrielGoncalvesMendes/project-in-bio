@@ -4,14 +4,20 @@ import Image from "next/image";
 import { ProjectData } from "@/app/server/get-profile-data";
 import Link from "next/link";
 import { formatUrl } from "@/app/lib/utils";
+import { useParams } from "next/navigation";
+import { increaseProjectVisits } from "@/app/actions/increase-projects-visits";
 
 
 export default function ProjectCard({ project, isOwner, img }: { project: ProjectData, isOwner: boolean, img: string }) {
-
+const { profileId } = useParams();
   const formattedUrl = formatUrl(project?.projectUrl);
 
-  function handleClick() {
-    console.log("Clicou no projeto");
+  async function handleClick() {
+    if(!profileId || !project.id || isOwner) {
+      return; 
+    }
+
+    await increaseProjectVisits(profileId as string, project.id);
   }
 
   return(

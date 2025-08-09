@@ -41,7 +41,7 @@ export default async function GetProfileData(profileId: string) {
 }
 
 export async function GetProfileProjects(profileId: string) {
-  const snapshot = await fireStore.collection("projects").doc(profileId).collection("projects").get();
+  const snapshot = await fireStore.collection("profiles").doc(profileId).collection("projects").get();
 
   return snapshot.docs.map((doc) => doc.data() as ProjectData);
 }
