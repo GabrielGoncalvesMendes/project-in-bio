@@ -8,16 +8,16 @@ import { useParams } from "next/navigation";
 import { increaseProjectVisits } from "@/app/actions/increase-projects-visits";
 
 
-export default function ProjectCard({ project, isOwner, img }: { project: ProjectData, isOwner: boolean, img: string }) {
+export default function ProjectCard({ project, isOwner, img, name, description }: { project?: ProjectData, isOwner?: boolean, img: string, name?: string, description?: string }) {
 const { profileId } = useParams();
-  const formattedUrl = formatUrl(project?.projectUrl);
+  const formattedUrl = formatUrl(project?.projectUrl || "");
 
   async function handleClick() {
-    if(!profileId || !project.id || isOwner) {
+    if(!profileId || !project?.id || isOwner) {
       return; 
     }
 
-    await increaseProjectVisits(profileId as string, project.id);
+    await increaseProjectVisits(profileId as string, project?.id);
   }
 
   return(
@@ -33,8 +33,8 @@ const { profileId } = useParams();
             </span>
           )}
           <div className="flex flex-col">
-            <span className="text-white font-bold text-xl">{project?.projectName}</span>
-            <span className="text-content-body text-sm">{project?.projectDescription}</span>
+            <span className="text-white font-bold text-xl">{name || project?.projectName}</span>
+            <span className="text-content-body text-sm">{description || project?.projectDescription}</span>
           </div>
         </div>
       </div>
