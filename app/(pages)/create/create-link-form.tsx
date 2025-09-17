@@ -6,11 +6,13 @@ import TextInput from "@/app/components/ui/text-input";
 import { sanitizeLink } from "@/app/lib/utils";
 import { verifyLink } from "@/app/actions/verify-link";
 import CreateLink from "@/app/actions/create-link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function CreateLinkForm() {
   const router = useRouter();
-  const [link, setLink] = useState<string>("");
+  const searchParams = useSearchParams();
+
+  const [link, setLink] = useState<string>(sanitizeLink(searchParams.get("link") || ""));
   const [error, setError] = useState<string | null>(null);
 
   function handleLinkChange(event: ChangeEvent<HTMLInputElement>) {
